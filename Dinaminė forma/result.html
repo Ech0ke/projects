@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Rezultatai</title>
+
+    <style> 
+        span {
+            color: red;
+        }
+    </style>
+  </head>
+  <body>
+    <div id="results"></div>
+    <a href="main.html">Grįžti į anketą</a>
+
+    <script>
+        const resultsList = document.getElementById('results')
+       
+        new URLSearchParams(window.location.search).forEach((value, name) => {
+            
+            if (value) {
+                resultsList.append(`${name}: ${value}`)
+                resultsList.append(document.createElement('br'))
+                
+            }
+            else {
+                
+                resultsList.append(`${name}: `)
+                const selected = document.createElement('span')
+                selected.innerHTML="nenurodyta"
+                selected.setAttribute('class', 'raudona')
+                resultsList.append(selected)
+                resultsList.append(document.createElement('br'))
+            }
+
+        })
+
+
+
+    </script>
+  </body>
+</html>

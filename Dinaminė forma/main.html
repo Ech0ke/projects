@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Forma</title>
+    <style>
+        :root {
+            --primary-color: rgb(91, 5, 203);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Montserrat, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: grid;
+            justify-content: center;
+
+            min-height: 100vh;
+            background-color: #4158D0;
+            background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+
+        }
+
+        /* Global Stylings */
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        input {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 0.25rem;
+        }
+
+        select {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 0.25rem;
+        }
+
+        .width-50 {
+            width: 50%;
+        }
+
+        .ml-auto {
+            margin-left: auto;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* Progressbar */
+        .progressbar {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            counter-reset: step;
+            margin: 2rem 0 2rem;
+
+        }
+
+        .progressbar::before,
+        .progress {
+            content: "";
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 4px;
+            width: 100%;
+            background-color: #dcdcdc;
+            z-index: 1;
+        }
+
+        .progress {
+            background-color: var(--primary-color);
+            width: 0%;
+            transition: 0.3s;
+        }
+
+        .progress-step {
+            width: 2.1875rem;
+            height: 2.1875rem;
+            background-color: #dcdcdc;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .progress-step::before {
+            counter-increment: step;
+            content: counter(step);
+        }
+
+        .progress-step::after {
+            content: attr(data-title);
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .progress-step-active {
+            background-color: var(--primary-color);
+            color: #f3f3f3;
+        }
+
+        /* Form */
+        .form {
+            width: 100%;
+            margin: 2rem auto;
+            border: 1px solid #ccc;
+            border-radius: 0.35rem;
+            padding: 1.5rem;
+            background-color: white;
+        }
+
+        .form-step {
+            display: none;
+            transform-origin: top;
+            animation: animate 0.5s;
+        }
+
+        .form-step-active {
+            display: block;
+        }
+
+        .input-group {
+            margin: 2rem 0;
+        }
+
+        @keyframes animate {
+            from {
+                transform: scale(1, 0);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1, 1);
+                opacity: 1;
+            }
+        }
+
+        /* Button */
+        .btns-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .btn {
+            padding: 0.75rem;
+            display: block;
+            text-decoration: none;
+            background-color: var(--primary-color);
+            color: #f3f3f3;
+            text-align: center;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            box-shadow: 0 0 0 2px #fff, 0 0 0 3px var(--primary-color);
+        }
+
+        .lytis {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .lytis input {
+            height: 1rem;
+            width: 1rem;
+            margin-right: 1rem;
+            margin-left: 0;
+        }
+
+        .lytis label {
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        .radial {
+            display: flex;
+            align-items: center;
+            margin: 0.5rem;
+            margin-left: 0;
+
+        }
+
+        .Llytis {
+            margin-bottom: -1rem;
+        }
+
+
+        span {
+            color: red;
+        }
+
+        .kodas input::-webkit-outer-spin-button,
+        .kodas input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .sutuoktinis {
+            display: none;
+        }
+
+        #Vyras,
+        #Moteris,
+        #įstaiga,
+        #laipsnis,
+        #studijos,
+        #darbas,
+        #nedarbas,
+        #atostogos,
+        #darboSritis,
+        #darboPobūdis,
+        #pateikti {
+            display: none;
+            animation: animate 0.5s;
+        }
+
+        @media screen and (orientation: portrait) {
+            .form {
+                width: clamp(320px, 30%, 430px);
+            }
+        }
+    </style>
+
+
+
+</head>
+
+<body>
+    <main>
+
+        <form action="result.html" method="GET" class="form">
+            <h1 class="text-center">Užpildykite Pateiktą Anketą</h1>
+
+            <div class="progressbar">
+                <div class="progress" id="progress"></div>
+                <div class="progress-step progress-step-active" data-title=""> </div>
+                <div class="progress-step" data-title=""></div>
+                <div class="progress-step" data-title=""></div>
+                <div class="progress-step" data-title=""></div>
+                <div class="progress-step" data-title=""></div>
+            </div>
+
+            <div class="form-step form-step-active">
+                <div class="input-group">
+                    <label for="vardas">Vardas<span>*</span></label>
+                    <input name="Vardas" type="text" id="vardas" class="required" placeholder="Pvz: Jonas">
+                </div>
+
+                <div class="input-group">
+                    <label for="2vardas">Antrasis vardas</label>
+                    <input name="Antrasis vardas" type="text" id="2vardas">
+                </div>
+
+                <div class="input-group">
+                    <label for="pavardė">Pavardė<span>*</span></label>
+                    <input name="Pavardė" type="text" id="pavardė" class="required" placeholder="Pvz: Jonaitis">
+                </div>
+
+                <div class="input-group">
+                    <label for="2pavardė">Ankstesnė pavardė</label>
+                    <input name="Ankstesnė pavardė" type="text" id="2pavardė">
+                </div>
+
+                <div class="Llytis">
+                    <label>Lytis<span>*</span></label><br>
+                </div>
+                
+                <div class="lytis">
+                    <div class="input-group radial">
+
+                        <input type="radio" name="Lytis" id="vyras" class="required" value="Vyras">
+                        <label for="vyras">Vyras</label>
+                    </div>
+
+                    <div class="input-group radial">
+
+                        <input type="radio" name="Lytis" id="moteris" class="required" value="Moteris">
+                        <label for="moteris">Moteris</label>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="gimimoData">Gimimo data<span>*</span></label>
+                    <input type="date" name="Gimimo data" id="gimimoData" class="required" min="1910-01-01"
+                        max="2010-01-01">
+                </div>
+
+                <div class="kodas input-group">
+                    <label for="asmKodas">Asmens kodas<span>*</span></label>
+                    <input type="number" name="Asmens kodas" id="asmKodas" class="required"
+                        placeholder="Pvz: 50588884444">
+                </div>
+                <div>
+                    <a href="#" class="btn btn-next width-50 ml-auto">Next</a>
+                </div>
+            </div>
+            <div class="form-step">
+                <div class="input-group">
+                    <label for="išsilavinimas">Išsilavinimas</label>
+                    <select name="Išsilavinimas" id="išsilavinimas">
+                        <option disabled selected value> -- Pasirinkite išsilavinimą -- </option>
+                        <option value="Nėra">Nėra</option>
+                        <option value="Pagrindinis">Pagrindinis</option>
+                        <option value="Vidurinis">Vidurinis</option>
+                        <option value="Profesinis">Profesinis</option>
+                        <option value="Aukštasis-koleginis">Aukštasis-koleginis</option>
+                        <option value="Aukštasis-universitetinis">Aukštasis-universitetinis</option>
+                    </select>
+                </div>
+
+                <div id="įstaiga">
+                    <div class="input-group">
+                        <label for="Mįstaiga">Paskutinė sėkmingai užbaigta mokslo / studijų įstaiga</label>
+                        <input name="Paskutinė sėkmingai užbaigta mokslo / studijų įstaiga" type="text" id="Mįstaiga"
+                            placeholder="Pvz: Vilniaus universitetas">
+                    </div>
+                    <div class="input-group">
+                        <label for="baigimoMetai">Užbaigimo metai</label>
+                        <input type="date" name="Užbaigimo metai" id="baigimoMetai" min="1910-01-01">
+                    </div>
+
+                    <div id="kval" class="input-group">
+                        <label for="kvalifikacija">Kvalifikacinis laipsnis</label>
+                        <select name="Kvalifikacija" id="kvalifikacija">
+                            <option disabled selected value> -- Pasirinkite kvalifikaciją -- </option>
+                            <option value="Bakalaurinis">Bakalaurinis</option>
+                            <option value="Magistrantūrinis">Magistrantūrinis</option>
+                            <option value="Doktorantinis">Doktorantinis</option>
+                        </select>
+                    </div>
+
+                    <div id="laipsnis" class="input-group">
+                        <label for="moksloLaipsnis">Mokslo laipsnis</label>
+                        <select name="Kvalifikacija" id="moksloLaipsnis">
+                            <option disabled selected value> -- Pasirinkite mokslo laipsnį -- </option>
+                            <option value="Mokslų daktaras">Mokslų daktaras</option>
+                            <option value="Habilituotas daktaras">Habilituotas daktaras</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="btns-group">
+                    <a href="#" class="btn btn-prev">Previous</a>
+                    <a href="#" class="btn btn-next">Next</a>
+                </div>
+            </div>
+            <div class="form-step">
+                <div class="input-group">
+                    <label for="telNumeris">Telefono numeris<span>*</span></label>
+                    <input type="tel" name="Telefono numeris" id="telNumeris" class="required"
+                        placeholder="Pvz: +37099999999">
+                </div>
+
+                <div class="input-group">
+                    <label for="elPaštas">Elektroninis paštas<span>*</span></label>
+                    <input type="email" name="Elektroninis paštas" id="elPaštas" class="required"
+                        placeholder="Pvz: example@gmail.com">
+                </div>
+
+                <div class="input-group">
+                    <label for="kitiKontaktai">Kiti kontaktai</label>
+                    <input type="text" name="Kiti kontaktai" id="kitiKontaktai">
+                </div>
+
+                <div class="input-group">
+                    <label for="adresas">Gyvenamosios vietos adresas</label>
+                    <input type="text" name="Adresas" id="adresas" placeholder="Pvz: Didlaukio g. 47, Vilnius">
+                </div>
+                <div class="btns-group">
+                    <a href="#" class="btn btn-prev">Previous</a>
+                    <a href="#" class="btn btn-next">Next</a>
+                </div>
+            </div>
+
+            <div class="form-step">
+                <div id="Vyras" class="input-group">
+                    <label for="Vvedybos">Vedybinė padėtis</label>
+                    <select name="Vedybinė padėtis" id="Vvedybos">
+                        <option disabled selected value> -- Pasirinkite vedybinę padėtį -- </option>
+                        <option value="Nevedęs">Nevedęs</option>
+                        <option value="Vedęs">Vedęs</option>
+                        <option value="Išsiskyręs">Išsiskyręs</option>
+                    </select>
+                </div>
+
+                <div id="Moteris" class="input-group">
+                    <label for="Mvedybos">Vedybinė padėtis</label>
+                    <select name="Vedybinė padėtis" id="Mvedybos">
+                        <option disabled selected value> -- Pasirinkite vedybinę padėtį -- </option>
+                        <option value="Neištekėjusi">Neištekėjusi</option>
+                        <option value="Ištekėjusi">Ištekėjusi</option>
+                        <option value="Išsiskyrusi">Išsiskyrusi</option>
+                    </select>
+                </div>
+
+                <div class="sutuoktinis input-group">
+                    <label for="Svardas">Sutuoktinio (-ės) vardas</label>
+                    <input name="Sutuoktinio (-ės) vardas" type="text" id="Svardas">
+                </div>
+
+                <div class="sutuoktinis input-group">
+                    <label for="Spavardė">Sutuoktinio (-ės) pavardė</label>
+                    <input name="Sutuoktinio (-ės) pavardė" type="text" id="Spavardė">
+                </div>
+
+                <div class="kodas sutuoktinis input-group">
+                    <label for="SasmKodas">Sutuoktinio (-ės) asmens kodas</label>
+                    <input type="number" name="Sutuoktinio (-ės) asmens kodas" id="SasmKodas"
+                        placeholder="Pvz: 50588884444">
+                </div>
+
+                <div class="input-group">
+                    <label for="vaikųSkaičius">Vaikų skaičius</label>
+                    <input type="number" name="Vaikų skaičius" id="vaikųSkaičius" min="0">
+                </div>
+
+                <div id="Vaikai">
+
+                </div>
+                <div class="btns-group">
+                    <a href="#" class="btn btn-prev">Previous</a>
+                    <a href="#" class="btn btn-next">Next</a>
+                </div>
+            </div>
+            <div class="form-step">
+                <div class="input-group">
+                    <label for="profPadėtis">Profesinė padėtis</label>
+                    <select name="Profesinė padėtis" id="profPadėtis">
+                        <option disabled selected value> -- Pasirinkite Profesinę padėtį -- </option>
+                        <option value="Studijuoja">Studijuoju</option>
+                        <option value="Dirba">Dirbu</option>
+                        <option value="Nedirba">Neidirbu</option>
+                        <option value="TMatostogos">Tėvystės / motinystės atostogose</option>
+                    </select>
+                </div>
+
+                <div id="studijos" class="input-group">
+                    <div>
+                        <label for="Spakopa">Studijų pakopa</label>
+                        <select name="Studijų pakopa" id="Spakopa">
+                            <option disabled selected value> -- Pasirinkite studijų pakopą -- </option>
+                            <option value="Bakalaurantūra">Bakalaurantūra</option>
+                            <option value="Magistrantūra">Magistrantūra</option>
+                            <option value="Meno aspirantūra">Meno aspirantūra</option>
+                            <option value="Doktorantūra">Doktorantūra</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="kursas">Kursas</label>
+                        <input name="Kursas" type="number" id="kursas" min="1" max="12">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="Sįstaiga">Įstaiga</label>
+                        <input name="Įstaiga" type="text" id="Sįstaiga" placeholder="Pvz: Vilniaus Universitetas">
+                    </div>
+
+                </div>
+
+                <div id="darbas" class="input-group">
+                    <div>
+                        <label for="Dįstaiga">Darbo įstaiga</label>
+                        <input name="Darbo įstaiga" type="text" id="Dįstaiga" placeholder='Pvz: AB "Įmonė"'>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="pareigos">Pareigos</label>
+                        <input name="Pareigos" type="text" id="pareigos" placeholder="Pvz: Kasininkas">
+                    </div>
+
+                </div>
+
+                <div id="nedarbas" class="input-group">
+                    <label for="Ndarbas">Nedarbo priežastis</label>
+                    <input name="Nedarbo priežastis" type="text" id="Ndarbas" placeholder="Pvz: Motinystės atostogos">
+                </div>
+
+                <div id="atostogos" class="input-group">
+                    <label for="Apr">Atostogų pradžia</label>
+                    <input name="Atostogų pradžia" type="date" id="Apr">
+                </div>
+
+                <div class="input-group">
+                    <label for="Dpatirtis">Darbo patirtis (metai)</label>
+                    <input name="Darbo patirtis (metai)" type="number" id="Dpatirtis" min="0">
+                </div>
+
+                <div id="darboPobūdis" class="input-group">
+                    <label for="Dpobūdis">Darbo pobūdis</label>
+                    <select name="Darbo pobūdis" id="Dpobūdis">
+                        <option disabled selected value> -- Pasirinkite darbo pobūdį -- </option>
+                        <option value="Vadovas">Vadovas</option>
+                        <option value="Specialistas">Specialistas</option>
+                        <option value="Individuali veikla">Individuali veikla</option>
+                    </select>
+                </div>
+
+                <div id="darboSritis" class="input-group">
+                    <label for="Dsritis">Darbo sritis</label>
+                    <select name="Darbo sritis" id="Dsritis">
+                        <option disabled selected value> -- Pasirinkite darbo sritį -- </option>
+                        <option value="IT">IT</option>
+                        <option value="Farmacija">Farmacija</option>
+                        <option value="Klientų aptarnavimas ir paslaugos">Klientų aptarnavimas ir paslaugos</option>
+                        <option value="Krašto apsauga">Krašto apsauga</option>
+                        <option value="Kultūra ir pramogos">Kultūra ir pramogos</option>
+                        <option value="Pramonė / Gamyba">Pramonė / Gamyba</option>
+                        <option value="Prekyba">Prekyba</option>
+                        <option value="Sveikatos apsauga">Sveikatos apsauga</option>
+                        <option value="Teisė">Teisė</option>
+                        <option value="Transportas">Transportas</option>
+                        <option value="Vidaus reikalų sistema">Vidaus reikalų sistema</option>
+                        <option value="Viešasis sektorius">Viešasis sektorius</option>
+                        <option value="Švietimas / studijos">Švietimas / studijos</option>
+                    </select>
+                </div>
+
+                <div class="btns-group">
+                    <a href="#" class="btn btn-prev">Previous</a>
+                    <input type="submit" id="pateikti" value="Submit" class="btn" disabled />
+                    <a href="#" id="validatorius" class="btn">Pateikti</a>
+
+                </div>
+            </div>
+
+
+
+
+
+
+        </form>
+    </main>
+    <script defer>
+        const prevBtns = document.querySelectorAll(".btn-prev");
+        const nextBtns = document.querySelectorAll(".btn-next");
+        const progress = document.getElementById("progress");
+        const formSteps = document.querySelectorAll(".form-step");
+        const progressSteps = document.querySelectorAll(".progress-step");
+
+        let formStepsNum = 0;
+
+        nextBtns.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                formStepsNum++;
+                updateFormSteps();
+                updateProgressbar();
+            });
+        });
+
+        prevBtns.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                formStepsNum--;
+                updateFormSteps();
+                updateProgressbar();
+            });
+        });
+
+        function updateFormSteps() {
+            formSteps.forEach((formStep) => {
+                formStep.classList.contains("form-step-active") &&
+                    formStep.classList.remove("form-step-active");
+            });
+
+            formSteps[formStepsNum].classList.add("form-step-active");
+        }
+
+        function updateProgressbar() {
+            progressSteps.forEach((progressStep, idx) => {
+                if (idx < formStepsNum + 1) {
+                    progressStep.classList.add("progress-step-active");
+                } else {
+                    progressStep.classList.remove("progress-step-active");
+                }
+            });
+
+            const progressActive = document.querySelectorAll(".progress-step-active");
+
+            progress.style.width =
+                ((progressActive.length - 1) / (progressSteps.length - 1)) * 100 + "%";
+        }
+
+        var pateikti = document.getElementById('validatorius')
+        var privalomi = document.querySelectorAll(".required")
+        pateikti.addEventListener('click', submit)
+        function submit() {
+            var skaitiklis = 0
+            for (var i = 0; i < privalomi.length; i++) {
+                if (privalomi[i].value.length == 0) {
+                    skaitiklis++
+                }
+
+            }
+            if (skaitiklis > 0) {
+                alert("Neužpildyti visi privalomi laukai (*)")
+
+            }
+            else {
+                document.getElementById('pateikti').disabled = false
+                document.getElementById('pateikti').click()
+
+            }
+
+
+        }
+
+
+        window.onload = function () {
+
+            var vyras = document.getElementById('vyras')
+            var moteris = document.getElementById('moteris')
+            vyras.addEventListener('click', showVedybos)
+            moteris.addEventListener('click', showVedybos)
+            var išsilavinimas = document.getElementById('išsilavinimas')
+            var įstaiga = document.getElementById('įstaiga')
+            var mokykla = document.getElementById('Mįstaiga')
+            išsilavinimas.addEventListener('change', () => { showDiv(išsilavinimas, įstaiga, mokykla, "Nėra") })
+
+            var kval = document.getElementById('kval')
+
+            var kvalifikacija = document.getElementById('kvalifikacija')
+            išsilavinimas.addEventListener('change', showKval)
+
+            var laipsnis = document.getElementById('laipsnis')
+            var moksloLaipsnis = document.getElementById('moksloLaipsnis')
+            kvalifikacija.addEventListener('change', showLaipsn)
+
+
+            var selection1 = document.getElementById('Vvedybos')
+            var selection2 = document.getElementById('Mvedybos')
+            var result = document.getElementsByClassName('sutuoktinis')
+            selection1.addEventListener('change', show1)
+            selection2.addEventListener('change', show2)
+            var vaikųSk = document.getElementById('vaikųSkaičius')
+            vaikųSk.addEventListener('change', VaikųInfo)
+
+            var profPadėtis = document.getElementById('profPadėtis')
+            var studijos = document.getElementById('studijos')
+            var darbas = document.getElementById('darbas')
+            var nedarbas = document.getElementById('nedarbas')
+            var atostogos = document.getElementById('atostogos')
+            profPadėtis.addEventListener('change', showPadėtis)
+
+            var Dpatirtis = document.getElementById('Dpatirtis')
+            Dpatirtis.addEventListener('change', showDarbas)
+
+            function showVedybos() {
+                if (vyras.checked) {
+                    document.getElementById('Vyras').style.display = 'block'
+                    selection2.selectedIndex = 0
+                    for (var i = 0; i < result.length; i += 1) {
+                        result[i].style.display = 'none'
+                    }
+                    document.getElementById('Moteris').style.display = 'none'
+
+                }
+                if (moteris.checked) {
+                    document.getElementById('Moteris').style.display = 'block'
+                    selection1.selectedIndex = 0
+                    for (var i = 0; i < result.length; i += 1) {
+                        result[i].style.display = 'none'
+                    }
+                    document.getElementById('Vyras').style.display = 'none'
+
+                }
+            }
+
+            function showDiv(source, target, content, text) {
+                if (source.value != text) {
+                    target.style.display = 'block'
+                }
+                else {
+                    target.style.display = 'none'
+                    content.value = ''
+
+                }
+            }
+
+            function showKval() {
+                if (išsilavinimas.value == "Aukštasis-universitetinis") {
+                    kval.style.display = 'block'
+                }
+                else {
+                    kval.style.display = 'none'
+                    kvalifikacija.selectedIndex = 0
+                }
+            }
+
+            function showLaipsn() {
+                if (kvalifikacija.value == "Doktorantinis") {
+                    laipsnis.style.display = 'block'
+                }
+                else {
+                    laipsnis.style.display = 'none'
+                    moksloLaipsnis.selectedIndex = 0
+                }
+            }
+
+            function show1() {
+                if (selection1.value == "Vedęs") {
+                    for (var i = 0; i < result.length; i += 1) {
+                        result[i].style.display = 'block'
+                    }
+                }
+                else {
+                    for (var i = 0; i < result.length; i += 1) {
+                        result[i].style.display = 'none'
+
+                    }
+                    document.getElementById('Svardas').value = ''
+                    document.getElementById('Spavardė').value = ''
+                    document.getElementById('SasmKodas').value = ''
+                }
+
+            }
+            function show2() {
+                if (selection2.value == "Ištekėjusi") {
+                    for (var i = 0; i < result.length; i += 1) {
+                        result[i].style.display = 'block'
+                    }
+                }
+                else {
+                    for (var i = 0; i < result.length; i += 1) {
+                        result[i].style.display = 'none'
+                    }
+                    document.getElementById('Svardas').value = ''
+                    document.getElementById('Spavardė').value = ''
+                    document.getElementById('SasmKodas').value = ''
+                }
+
+            }
+
+            function includeHTML() {
+                document.getElementById("Vaikai").innerHTML +=
+                    '<div class="vaikas input-group"> <label for="Vvardas">Vaiko vardas</label> <input name="Vaiko vardas" type="text" id="Vvardas"> </div> <div class="vaikas input-group"> <label for="Vpavardė">Vaiko pavardė</label> <input name="Vaiko pavardė" type="text" id="Vpavardė"> </div>'
+            }
+
+            function VaikųInfo() {
+                document.querySelectorAll('.vaikas').forEach(vaikas => vaikas.remove());
+                for (var i = 0; i < vaikųSk.value; i += 1) {
+                    includeHTML()
+                }
+            }
+
+            function showPadėtis() {
+                if (profPadėtis.value == "Studijuoja") {
+                    studijos.style.display = 'block'
+                    darbas.style.display = 'none'
+                    nedarbas.style.display = 'none'
+                    atostogos.style.display = 'none'
+                    document.getElementById('Dįstaiga').value = ''
+                    document.getElementById('pareigos').value = ''
+                    document.getElementById('Ndarbas').value = ''
+                    document.getElementById('Apr').value = ''
+                }
+                else if (profPadėtis.value == "Dirba") {
+                    darbas.style.display = 'block'
+                    studijos.style.display = 'none'
+                    nedarbas.style.display = 'none'
+                    atostogos.style.display = 'none'
+                    document.getElementById('Spakopa').value = ''
+                    document.getElementById('kursas').value = ''
+                    document.getElementById('Sįstaiga').value = ''
+                    document.getElementById('Ndarbas').value = ''
+                    document.getElementById('Apr').value = ''
+                }
+                else if (profPadėtis.value == "Nedirba") {
+                    nedarbas.style.display = 'block'
+                    darbas.style.display = 'none'
+                    studijos.style.display = 'none'
+                    atostogos.style.display = 'none'
+                    document.getElementById('Spakopa').value = ''
+                    document.getElementById('kursas').value = ''
+                    document.getElementById('Sįstaiga').value = ''
+                    document.getElementById('Dįstaiga').value = ''
+                    document.getElementById('pareigos').value = ''
+                    document.getElementById('Apr').value = ''
+                }
+                else if (profPadėtis.value == "TMatostogos") {
+
+                    atostogos.style.display = 'block'
+                    nedarbas.style.display = 'none'
+                    darbas.style.display = 'none'
+                    studijos.style.display = 'none'
+
+
+                    document.getElementById('Spakopa').value = ''
+                    document.getElementById('kursas').value = ''
+                    document.getElementById('Sįstaiga').value = ''
+                    document.getElementById('Dįstaiga').value = ''
+                    document.getElementById('pareigos').value = ''
+                    document.getElementById('Ndarbas').value = ''
+                }
+            }
+
+
+            function showDarbas() {
+                if (Dpatirtis.value <= 0) {
+                    document.getElementById('darboPobūdis').style.display = 'none'
+                    document.getElementById('darboSritis').style.display = 'none'
+                    document.getElementById('Dpobūdis').value = ''
+                    document.getElementById('Dsritis').value = ''
+                }
+                else {
+                    document.getElementById('darboPobūdis').style.display = 'block'
+                    document.getElementById('darboSritis').style.display = 'block'
+                }
+            }
+
+        }
+
+    </script>
+</body>
+
+</html>
