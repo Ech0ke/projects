@@ -1,0 +1,540 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+
+
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
+* {
+  font-family: "Rubik";
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
+.img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.page-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+.content-wrap {
+  padding-bottom: 0;
+}
+
+.top-nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #00BAF0;
+  background-color: #fff;
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  height: 50px;
+  padding: 1em;
+  margin-top: 1.5em;
+}
+
+.top-nav a:visited, .top-nav:active {
+  color:#334155;
+}
+
+.top-nav a:hover {
+  color:#334155;
+}
+.top-nav a {
+  transition: 0.2s ease-in-out all;
+  color: #334155;
+}
+
+.top-nav a:hover {
+  color:#00e486;
+}
+.menu {
+  display: flex;
+  flex-direction: row;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  z-index: 1;
+}
+
+.menu > li {
+  margin: 0 1rem;
+  overflow: hidden;
+}
+
+.menu-button-container {
+  display: none;
+  height: 100%;
+  width: 30px;
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#menu-toggle {
+  display: none;
+}
+
+.menu-button,
+.menu-button::before,
+.menu-button::after {
+  display: block;
+  background-color: #00e486;
+  position: absolute;
+  height: 4px;
+  width: 30px;
+  transition: transform 400ms cubic-bezier(0.23, 1, 0.32, 1);
+  border-radius: 2px;
+}
+
+.menu-button::before {
+  content: '';
+  margin-top: -8px;
+}
+
+.menu-button::after {
+  content: '';
+  margin-top: 8px;
+}
+
+#menu-toggle:checked + .menu-button-container .menu-button::before {
+  margin-top: 0px;
+  transform: rotate(405deg);
+}
+
+#menu-toggle:checked + .menu-button-container .menu-button {
+  background: rgba(255, 255, 255, 0);
+}
+
+#menu-toggle:checked + .menu-button-container .menu-button::after {
+  margin-top: 0px;
+  transform: rotate(-405deg);
+}
+
+.logo {
+  max-height: 50px;
+}
+
+.banner {
+  height:40vh;
+  background: url(./images/hot-dish-banner.jpg) center/cover no-repeat;
+  margin-bottom: 1rem;
+  border-radius: 0.25rem;
+  position: relative;
+  margin-top: 0.75rem;
+  
+}
+
+.banner-drinks {
+  height:40vh;
+  background: url(./images/drink-banner.jpg) center/cover no-repeat;
+  margin-bottom: 1rem;
+  border-radius: 0.25rem;
+  position: relative;
+  margin-top: 0.75rem;
+  
+}
+
+.banner-main {
+  height:90vh;
+  background: url(./images/banner-main.jpg) center/cover no-repeat;
+  border-radius: 0.25rem;
+  position: relative;
+  margin-top: 0.75rem;
+  margin-bottom: 1rem;
+  
+}
+
+.banner-container-main {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.65);
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.buttons-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  height: 6rem;
+}
+.banner-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.banner-text-container {
+  text-align: center;
+  color: white;
+}
+
+.banner-text-container h1{
+    font-size: 3.5rem;
+    margin-bottom: 0;
+    margin-top: 2.5rem;
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+  }
+.banner-text-container h4 {
+  font-size: 2rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+
+.content {
+  margin: 0 1.5rem;
+  min-height: 95vh;
+}
+
+  .tags-list a {
+    text-transform: capitalize;
+    display: block;
+    color: #64748b;
+    transition: 0.2s ease-in-out all;
+  }
+
+  .tags-list a:hover {
+    color: #00e486;
+  }
+
+  .recipes-container {
+    display: grid;
+    gap: 2rem 1rem;
+    grid-template-columns: 200px 1fr;
+    margin-top: 2rem;
+  }
+
+  .tags-container {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 3rem;
+  }
+
+  .tags-container h4 {
+    margin-top: 0.5rem;
+    margin-bottom: 0.7rem;
+    font-size: 1.5rem;
+    font-weight: 500;
+    text-decoration: underline;
+  }
+
+  .tags-container a {
+    margin-bottom: 0.5rem;
+  }
+
+  .tag-page {
+    padding-bottom: 0.1rem;
+    margin-top: 1rem;
+  }
+
+  .tag-page h4 {
+    font-size: 2rem;
+  }
+  .tags-list {
+    display: grid;
+    grid-template-columns: 1fr;
+   
+  }
+
+  .recipes-list {
+    display: grid;
+    gap: 2rem 1rem;
+    padding-bottom: 3rem;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .recipe {
+    display: block;
+  }
+  
+  .recipe-img {
+    height: 15rem;
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .recipe h5 {
+    margin-bottom: 0;
+    line-height: 1;
+    color: #334155;
+    font-size: 1.15rem;
+  }
+
+  .recipe p {
+    margin-bottom: 0;
+    line-height: 1;
+    margin-top: 0.5rem;
+    color: #64748b;
+    letter-spacing: 1px;
+  }
+
+
+
+  .page-footer {
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: black;
+    color: white;
+    margin-bottom: 0;
+  }
+  .page-footer h5 {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  .page-footer p {
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+  .page-footer .footer-logo,
+  .page-footer a {
+    color: #00e486;
+  }
+
+
+  /* Vištienos receptas */
+  .recipe-hero {
+    display: grid;
+    grid-template-columns: 4fr 5fr;
+    gap: 3rem;
+    align-items: center;
+    margin-top: 1rem;
+  }
+
+  .recipe-hero-img {
+    border-radius: 0.25rem;
+    height: 300px;
+  }
+
+  .recipe-hero p {
+    color: #475569;
+  }
+
+  .recipe-icons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 2rem 0;
+    text-align: center;
+  }
+
+  .recipe-icons img {
+    height: 2rem;
+    filter: invert(64%) sepia(92%) saturate(1450%) hue-rotate(104deg) brightness(97%) contrast(101%);
+    padding-bottom: 0;
+  }
+
+  .recipe-icons h5, .recipe-icons p {
+    margin-bottom: 0;
+    font-size: 0.85rem;
+  }
+   
+  .recipe-icons p {
+    color: #475569;
+  }
+
+  /* Gaminimo instrukcijos ir įrankiai */
+  .recipe-content {
+    padding: 3rem 0;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem 5rem;
+  }
+
+  .recipe-content h4
+  {
+    font-size: 1.5rem;
+  }
+
+  .single-instruction header {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  .single-instruction header p {
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 0;
+    color: #02cf79;
+  }
+
+  .single-instruction > p {
+    color: #334155;
+  }
+
+  .single-instruction header div {
+    height: 2px;
+    background: #cbd5e1;
+  }
+
+  .single-ingredient {
+    border-bottom: 2px solid #cbd5e1;
+    padding-bottom: 0.75rem;
+    color: #334155;
+  }
+
+@media (max-width: 768px) {
+  
+  h1 {
+    margin-top: 0;
+    font-size: 3.052rem !important;
+  }
+  
+  h2 {
+    font-size: 2.441rem !important;
+  }
+  
+  h3 {
+    font-size: 1.953rem !important;
+  }
+  
+  h4 {
+    font-size: 1.563rem !important;
+  }
+  
+  h5 {
+    font-size: 1.25rem !important;
+  }
+
+  .menu-button-container {
+    display: flex;
+  }
+  .menu {
+    position: absolute;
+    top: 0;
+    margin-top: 80px;
+    left: 0;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .top-nav {
+    margin-right: 0.5rem;
+  }
+  .nav-link, .nav-link a:hover, .nav-link:visited{
+    text-decoration: none;
+    color: black;
+    text-align: center;
+  }
+  #menu-toggle ~ .menu li {
+    height: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    transition: height 400ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  #menu-toggle:checked ~ .menu li {
+    border-top: 1px solid rgb(148, 148, 148);
+    height: 3rem;
+    padding: 0.5em;
+    transition: height 400ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  #menu-toggle:checked ~ .menu li:last-child {
+    border-bottom: 1px solid rgb(148, 148, 148);
+  }
+  .menu > li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0.5em 0;
+    width: 100%;
+    color: white;
+    background-color: white;
+  }
+
+  .recipes-list {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .tags-list {
+    grid-template-columns: repeat(3, 1fr);
+   
+  }
+
+  .recipes-container {
+    grid-template-columns: 1fr;
+  }
+  .tags-container {
+    padding-bottom: 0;
+  }
+
+  .tag-page h4 {
+    font-size: 2rem !important; 
+  }
+
+  /* Vištienos receptas */
+
+
+  .recipe-hero {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+  
+   /* Gaminimo instrukcijos ir įrankiai */
+
+  .recipe-content {
+    grid-template-columns: 1fr;
+  }
+  
+
+
+}
+
+@media screen and (min-width: 768px) and (max-width: 1000px) {
+  .recipes-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .tags-list {
+    grid-template-columns: repeat(3, 1fr);
+    
+   
+  }
+
+  .recipe img {
+    height: 10rem;
+  }
+
+  .recipes-container {
+    grid-template-columns: 1fr;
+  }
+
+  .tags-container {
+    padding-bottom: 0;
+  }
+}
